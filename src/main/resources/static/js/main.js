@@ -7,17 +7,20 @@
     [ Validate ]*/
     var input = $('.validate-input .input100');
 
-    $('.validate-form').on('submit',function(){
-        var check = true;
+    $('.validate-form').on('submit', function(event) {
+        event.preventDefault();
+        console.log(event)
+        console.log(this.elements)
 
-        for(var i=0; i<input.length; i++) {
-            if(validate(input[i]) == false){
-                showValidate(input[i]);
-                check=false;
-            }
+        var data = {
+            email: this.elements.email.value,
+            pass: this.elements.pass.value
         }
-
-        return check;
+        var xhr = new XMLHttpRequest();
+        xhr.open(this.method, this.action, true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        var formData = JSON.stringify(data);
+        xhr.send(formData);
     });
 
 
@@ -52,17 +55,10 @@
         $(thisAlert).removeClass('alert-validate');
     }
 
-    function submitform(){
+    function submitform(a) {
+            console.log(a);
             alert("Sending Json");
-            var xhr = new XMLHttpRequest();
-            xhr.open(form.method, form.action, true);
-            xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-            var j = {
-                "first_name":"binchen",
-                "last_name":"heris",
-            };
-            var formData = JSON.stringify($("#myForm").serializeArray());
-            xhr.send(formData);
     }
+
 
 })(jQuery);

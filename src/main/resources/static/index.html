@@ -30,8 +30,8 @@
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form action="http://localhost:8082/login" method="post"
-					  class="login100-form validate-form" name="myForm">
+				<form action="http://localhost:8082/login" enctype="application/json" class="login100-form validate-form"
+					  method="post" name="myForm">
 					<span class="login100-form-title">
 						Member Login
 					</span>
@@ -53,7 +53,7 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn" onclick="submitform()">
+						<button id="myButton" class="login100-form-btn">
 							Login
 						</button>
 					</div>
