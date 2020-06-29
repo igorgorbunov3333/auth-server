@@ -5,12 +5,12 @@ import com.company.authserver.view.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class AuthController {
@@ -21,11 +21,11 @@ public class AuthController {
     private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping(path = "/auth")
-    public ResponseEntity<Void> auth(@RequestHeader String requestTokenHeader) {
+    public ModelAndView auth(@RequestHeader(value = "token", required = false) String token) {
         String username = null;
         String jwtToken = null;
-        if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            jwtToken = requestTokenHeader.substring(7);
+        if (token != null && token.startsWith("Bearer ")) {
+            jwtToken = token.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
@@ -37,9 +37,11 @@ public class AuthController {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
             if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-                return ResponseEntity.ok().build();
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.setStatus(HttpStatus.OK);
+                return modelAndView;
             }
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return new ModelAndView("redirect:http://localhost:63342/auth-server/static/index.html");
     }
 }

@@ -4,6 +4,7 @@ import com.company.authserver.model.JwtRequest;
 import com.company.authserver.model.JwtResponse;
 import com.company.authserver.service.JwtUserDetailsService;
 import com.company.authserver.view.util.JwtTokenUtil;
+import com.company.authserver.view.util.UriPathHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +28,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @RequestMapping(value = UriPathHelper.LOGIN_PATH, method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
