@@ -18,7 +18,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        if ("javainuse".equals(username) && "password".equals(password)) {
+        if ("igorgorbunov3333@gmail.com".equals(username) && "password".equals(password)) {
             return new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList());
         } else {
             throw new BadCredentialsException("Authentication failed");

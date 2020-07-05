@@ -1,30 +1,30 @@
 package com.company.authserver.model;
 
 public class JwtRequest {
-    private String username;
-    private String password;
+    private String email;
+    private String pass;
 
     public JwtRequest() {
     }
 
-    public JwtRequest(String username, String password) {
-        this.setUsername(username);
-        this.setPassword(password);
+    public JwtRequest(String email, String pass) {
+        this.setEmail(email);
+        this.setPass(pass);
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getPass() {
+        return this.pass;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }
