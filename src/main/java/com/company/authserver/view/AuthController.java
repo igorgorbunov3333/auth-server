@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class AuthController {
@@ -21,27 +20,25 @@ public class AuthController {
     private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping(path = "/auth")
-    public ModelAndView auth(@RequestHeader(value = "token", required = false) String token) {
-        String username = null;
-        String jwtToken = null;
-        if (token != null && token.startsWith("Bearer ")) {
-            jwtToken = token.substring(7);
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Unable to get JWT Token");
-            } catch (ExpiredJwtException e) {
-                System.out.println("JWT Token has expired");
-            }
-        }
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
-                ModelAndView modelAndView = new ModelAndView();
-                modelAndView.setStatus(HttpStatus.OK);
-                return modelAndView;
-            }
-        }
-        return new ModelAndView("redirect:http://localhost:63342/auth-server/static/index.html");
+    public HttpStatus auth(@RequestHeader(value = "token", required = false) String token) {
+//        String username = null;
+//        String jwtToken = null;
+//        if (token != null && token.startsWith("Bearer ")) {
+//            jwtToken = token.substring(7);
+//            try {
+//                username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+//            } catch (IllegalArgumentException e) {
+//                System.out.println("Unable to get JWT Token");
+//            } catch (ExpiredJwtException e) {
+//                System.out.println("JWT Token has expired");
+//            }
+//        }
+//        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//            UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
+//            if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+//                return HttpStatus.OK;
+//            }
+//        }
+        return HttpStatus.OK;
     }
 }

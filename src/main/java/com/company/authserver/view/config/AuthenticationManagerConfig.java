@@ -23,7 +23,17 @@ public class AuthenticationManagerConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // We don't need CSRF for this example
         httpSecurity.csrf().disable()
-                // dont authenticate this particular request
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests()
+                .antMatchers("/login*").permitAll()
+//                .antMatchers("/css*").permitAll()
+//                .antMatchers("/fonts*").permitAll()
+//                .antMatchers("/images*").permitAll()
+//                .antMatchers("/js*").permitAll()
+//                .antMatchers("/vendor*").permitAll()
+                .antMatchers("/index.html").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/index.html")
+                .defaultSuccessUrl("/auth");
     }
 }
